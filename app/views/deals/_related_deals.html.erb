@@ -1,0 +1,28 @@
+<div id="deals">
+
+<div class="contextual">
+	<%= link_to_if_authorized l(:label_deal_new), {:controller => 'deals', :action => 'new', :project_id => @project, :contact_id => @contact} %>
+</div>
+
+<h3><%= "#{l(:label_deal_plural)}" %> <%= " - #{deals_sum_to_currency(@deals.select{|d| d.open? && !d.price.blank?}.group_by(&:currency).map{|k, v| [k, v.sum(&:price)]})}".html_safe if @deals.detect{|d| d.open? && !d.price.blank?} %></h3>     
+
+<% if @deals.any? %>
+	<table class="related_deals">  
+	<% @deals.each do |deal| %>  
+		<tr>
+			<td class="name" style="vertical-align: top;">
+				<h4>
+					<%= link_to deal.name, {:controller => 'deals', :action => 'show', :id => deal.id } %>
+				</h4>  
+					<%= deal_price(deal).html_safe %>  
+					<% if deal.status %>  
+					<span class="deal-status" style = <%= "background-color:#{deal.status.color_name};color:white;" %> >
+						<%= h deal.status %> 
+					</span>
+					<% end %>               
+			</td>
+		</tr>
+	<% end %>
+	</table>
+<% end %>                        
+</div>

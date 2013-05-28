@@ -1,0 +1,10 @@
+<h2><%= l(:label_deal_edit_information) %></h2>
+
+<%= labelled_form_for :deal, @deal, :url => {:action => 'update', :id => @deal}, :html => {:method => :put } do |f|  %>
+  <%= render :partial => 'form', :locals => {:f => f}  %>
+  <%= submit_tag l(:button_save) -%>
+<% end -%>
+
+<% content_for :header_tags do %>
+	<%= robot_exclusion_tag %>
+<% end %>

@@ -1,0 +1,12 @@
+<h2><%= l(:label_deal_new) %></h2>
+
+<%= labelled_form_for :deal, @deal, :url => {:action => 'create', :project_id => @project} do |f|  %>
+  <%= render :partial => 'form', :locals => {:f => f}  %>
+  <%= submit_tag l(:button_save) -%>
+  <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
+<% end -%>
+
+
+<% content_for :header_tags do %>
+	<%= robot_exclusion_tag %>
+<% end %>
