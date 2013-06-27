@@ -159,7 +159,8 @@ class ContactsController < ApplicationController
       attach_avatar
       respond_to do |format|
         format.html {
-          redirect_back_or_default (params[:continue] ? {:action => "new", :project_id => @project} : {:action => "show", :project_id => @project, :id => @contact})
+          redirect_to (params[:continue] ?  {:action => "new", :project_id => @project} : {:action => "show", :project_id => @project, :id => @contact} )
+          redirect_back_or_default (params[:continue] ?  {:action => "new", :project_id => @project} : {:action => "show", :project_id => @project, :id => @contact} )
         }
         format.js
         format.api  { render :action => 'show', :status => :created, :location => contact_url(@contact) }
