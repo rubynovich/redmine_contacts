@@ -160,13 +160,13 @@ class ContactsController < ApplicationController
       respond_to do |format|
         format.html {
           if params[:continue].present?
-            redirect_to {:action => "new", :project_id => @project, :back_url => params[:back_url]}
+            redirect_to :action => :new, :project_id => @project, :back_url => params[:back_url]
           else
-            redirect_back_or_default {:action => "show", :project_id => @project, :id => @contact}
+            redirect_back_or_default :action => :show, :project_id => @project, :id => @contact
           end
         }
         format.js
-        format.api  { render :action => 'show', :status => :created, :location => contact_url(@contact) }
+        format.api  { render :action => :show, :status => :created, :location => contact_url(@contact) }
       end
     else
       respond_to do |format|
