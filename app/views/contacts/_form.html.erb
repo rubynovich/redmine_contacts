@@ -4,7 +4,7 @@
 
 <script type="text/javascript" charset="utf-8">
 	function togglePerson(element) {
-		if (element.checked) {
+		if (element.attr('checked')) {
 		  $('#person_data').hide();
 		  $('#job_title label').get(0).innerHTML ='<%= l(:field_company_field) %>';
 		  $('#first_name label').get(0).innerHTML='<%= l(:field_company_name) %>' + '<span class="required"> *</span>';
