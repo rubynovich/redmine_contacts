@@ -63,8 +63,9 @@
 	<% end %>
   
   <% if @contact.assigned_to %>
-  <tr><th class="author"><%=l(:label_assigned_to)%>:</th><td class="author"><%= avatar(@contact.assigned_to, :size => "14") %><%= link_to_user(@contact.assigned_to)  %></td></tr> 
+  <tr><th class="author"><%=l(:label_assigned_to)%>:</th><td class="author"><%= avatar(@contact.assigned_to, :size => "14") %><%= link_to_user(@contact.assigned_to)  %></td></tr>
   <% end %>
+  <tr><th class="author"><%=l(:label_author)%>:</th><td class="author"><%= avatar(@contact.author, :size => "14") %><%= link_to_user(@contact.author)  %></td></tr>
 	
 	<%= call_hook(:view_contacts_sidebar_attributes_bottom) %>
 
