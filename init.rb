@@ -117,17 +117,11 @@ Redmine::Plugin.register :redmine_contacts do
 
   Redmine::MenuManager.map :top_menu do |menu| 
 
-    unless menu.exists?(:public_intercourse)
-      menu.push(:public_intercourse, "#",
-                { :after => :home,
-                  :parent => :top_menu, 
-                  :caption => :label_public_intercourse_menu
-                })
-    end
+    parent = menu.exists?(:public_intercourse) ? :public_intercourse : :top_menu
 
     menu.push(:deals, 
               {:controller => 'deals', :action => 'index', :project_id => nil}, 
-              { :parent => :public_intercourse,
+              { :parent => parent,
                 :caption => :label_deal_plural, 
                 :if => Proc.new {
                   User.current.allowed_to?({:controller => 'deals', :action => 'index'}, nil, {:global => true}) && RedmineContacts.settings[:show_deals_in_top_menu]
@@ -136,7 +130,7 @@ Redmine::Plugin.register :redmine_contacts do
     
     menu.push(:contacts, 
               {:controller => 'contacts', :action => 'index', :project_id => nil}, 
-              { :parent => :public_intercourse,
+              { :parent => parent,
                 :caption => :contacts_title, 
                 :if => Proc.new {User.current.allowed_to?({:controller => 'contacts', :action => 'index'}, nil, {:global => true})}  
               })
