@@ -119,14 +119,14 @@ Redmine::Plugin.register :redmine_contacts do
 
     parent = menu.exists?(:public_intercourse) ? :public_intercourse : :top_menu
 
-    menu.push(:deals, 
-              {:controller => 'deals', :action => 'index', :project_id => nil}, 
-              { :parent => parent,
-                :caption => :label_deal_plural, 
-                :if => Proc.new {
-                  User.current.allowed_to?({:controller => 'deals', :action => 'index'}, nil, {:global => true}) && RedmineContacts.settings[:show_deals_in_top_menu]
-                }
-              })
+    # menu.push(:deals, 
+    #           {:controller => 'deals', :action => 'index', :project_id => nil}, 
+    #           { :parent => parent,
+    #             :caption => :label_deal_plural, 
+    #             :if => Proc.new {
+    #               User.current.allowed_to?({:controller => 'deals', :action => 'index'}, nil, {:global => true}) && RedmineContacts.settings[:show_deals_in_top_menu]
+    #             }
+    #           })
     
     menu.push(:contacts, 
               {:controller => 'contacts', :action => 'index', :project_id => nil}, 
