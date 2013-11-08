@@ -85,19 +85,23 @@ Redmine::Plugin.register :redmine_contacts do
   end
 
   menu :project_menu, :contacts, {:controller => 'contacts', :action => 'index'}, :caption => :contacts_title, :param => :project_id
+
   menu :application_menu, :contacts, 
                           {:controller => 'contacts', :action => 'index'}, 
                           :caption => :label_contact_plural, 
                           :param => :project_id, 
                           :if => Proc.new{User.current.allowed_to?({:controller => 'contacts', :action => 'index'}, 
                                           nil, {:global => true}) && RedmineContacts.settings[:show_in_app_menu]}
-  menu :top_menu, :deals, {:controller => 'deals', :action => 'index', :project_id => nil}, :caption => :label_deal_plural, :if => Proc.new {
-    User.current.allowed_to?({:controller => 'deals', :action => 'index'}, nil, {:global => true}) && RedmineContacts.settings[:show_deals_in_top_menu]
-  }    
+
+  # menu :top_menu, :deals, {:controller => 'deals', :action => 'index', :project_id => nil}, :caption => :label_deal_plural, :if => Proc.new {
+  #   User.current.allowed_to?({:controller => 'deals', :action => 'index'}, nil, {:global => true}) && RedmineContacts.settings[:show_deals_in_top_menu]
+  # }    
+
   menu :project_menu, :deals, {:controller => 'deals', :action => 'index' }, 
                               :caption => :label_deal_plural, 
                               :if => Proc.new{|p| ContactsSetting[:contacts_show_deals_tab, p.id].to_i > 0 },
                               :param => :project_id
+
   menu :application_menu, :deals, 
                           {:controller => 'deals', :action => 'index'}, 
                           :caption => :label_deal_plural, 
@@ -105,11 +109,35 @@ Redmine::Plugin.register :redmine_contacts do
                           :if => Proc.new{User.current.allowed_to?({:controller => 'deals', :action => 'index'}, 
                                           nil, {:global => true}) && RedmineContacts.settings[:show_in_app_menu]}
   
-  menu :top_menu, :contacts, {:controller => 'contacts', :action => 'index', :project_id => nil}, :caption => :contacts_title, :if => Proc.new {
-    User.current.allowed_to?({:controller => 'contacts', :action => 'index'}, nil, {:global => true})
-  }  
-  
+  # menu :top_menu, :contacts, {:controller => 'contacts', :action => 'index', :project_id => nil}, :caption => :contacts_title, :if => Proc.new {
+  #   User.current.allowed_to?({:controller => 'contacts', :action => 'index'}, nil, {:global => true})
+  # }  
+
   menu :admin_menu, :contacts, {:controller => 'settings', :action => 'plugin', :id => "redmine_contacts"}, :caption => :contacts_title
+
+  Redmine::MenuManager.map :top_menu do |menu| 
+
+    parent = menu.exists?(:public_intercourse) ? :public_intercourse : :top_menu
+
+    # menu.push(:deals, 
+    #           {:controller => 'deals', :action => 'index', :project_id => nil}, 
+    #           { :parent => parent,
+    #             :caption => :label_deal_plural, 
+    #             :if => Proc.new {
+    #               User.current.allowed_to?({:controller => 'deals', :action => 'index'}, nil, {:global => true}) && RedmineContacts.settings[:show_deals_in_top_menu]
+    #             }
+    #           })
+    
+    menu.push(:contacts, 
+              {:controller => 'contacts', :action => 'index', :project_id => nil}, 
+              { :parent => parent,
+                :caption => :contacts_title, 
+                :if => Proc.new {User.current.allowed_to?({:controller => 'contacts', :action => 'index'}, nil, {:global => true})}  
+              })
+    
+  end
+
+
   
   activity_provider :contacts, :default => false, :class_name => ['ContactNote', 'Contact']
   activity_provider :deals, :default => false, :class_name => ['DealNote', 'Deal']
