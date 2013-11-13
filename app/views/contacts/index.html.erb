@@ -9,7 +9,7 @@
     <%= link_to l(:label_contacts_import), {controller: 'contact_imports', action: 'new', project_id: project}, class: 'icon icon-import', id: 'import_from_csv' %>
     <% else %>
     <%= link_to_if_authorized l(:label_contact_new), {controller: 'contacts', action: 'new', project_id: @project}, class: 'icon icon-add' %>
-    <%= link_to_if_authorized l(:label_contacts_import), {controller: 'contact_imports', action: 'new', project_id: project}, class: 'icon icon-import', id: 'import_from_csv' %>
+    <%= link_to_if_authorized l(:label_contacts_import), {controller: 'contact_imports', action: 'new', project_id: @project}, class: 'icon icon-import', id: 'import_from_csv' %>
     <% end %>
 </div>
 
