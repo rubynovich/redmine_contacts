@@ -30,7 +30,7 @@ api.contact do
         api.number phone
       end
     end
-  end if @contact.mobile_phones.any?
+  end if @contact.mobile_phones.any? && !@contact.is_company?
 
 
   api.array :faxes do

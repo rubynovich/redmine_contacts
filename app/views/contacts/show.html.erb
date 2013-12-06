@@ -44,7 +44,7 @@
     				<% end %>
 					<% end %>
 
-					<% if @contact.mobile_phones.any? %>
+					<% if @contact.mobile_phones.any? && !@contact.is_company? %>
 					  <% @contact.mobile_phones.each do |phone| %>
     					<li class="mobile_phone icon icon-phone"><%= phone %></li>
     				<% end %>
