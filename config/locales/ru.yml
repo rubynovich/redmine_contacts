@@ -283,3 +283,5 @@ ru:
 
   #3.2.2+
   label_project_by_default: Проект по умолчанию
+  field_contact_fax: Факс
+  field_contact_mobile_phone: Факс

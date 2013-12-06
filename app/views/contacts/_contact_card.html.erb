@@ -7,25 +7,29 @@
 				<p>
 				<%= h contact_card.job_title %>
 				<% if !contact_card.is_company %>
-				<%= " #{l(:label_at_company)} " unless (contact_card.job_title.blank? or contact_card.company.blank?) %> 
+				<%= " #{l(:label_at_company)} " unless (contact_card.job_title.blank? or contact_card.company.blank?) %>
   				<% if contact_card.contact_company %>
   					<%= link_to contact_card.contact_company.name, {:controller => 'contacts', :action => 'show', :project_id => contact_card.contact_company.project(@project), :id => contact_card.contact_company.id } %>
   				<% else %>
-  					<%= h contact_card.company %> 
+  					<%= h contact_card.company %>
   				<% end %>
-				<% end %>  
+				<% end %>
 			  </p>
-			  
-			</td>  
 
-			
+			</td>
+
+
 		</tr>
 		<tr>
-			<td colspan="2" style="padding-left: 10px;">	
+			<td colspan="2" style="padding-left: 10px;">
 	  		<% if contact_card.phones.any? %>
 				  <p class="phone icon icon-phone"><%=  contact_card.phones.first %></p>
 				<% end %>
-				
+
+	  		<% if contact_card.faxes.any? %>
+				  <p class="phone icon icon-phone"><%=  contact_card.faxes.first %></p>
+				<% end %>
+
 				<% if contact_card.emails.any? %>
 				  <p class="email icon icon-email"><%= mail_to contact_card.emails.first %></p>
 				<% end %>

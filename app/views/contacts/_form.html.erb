@@ -63,6 +63,22 @@
 		 </p>
 	</div>
 
+	<div id="mobile_phone_fields">
+		<p>
+			<%= f.text_field :mobile_phone, label: l(:field_contact_mobile_phone), style: "width:90%;" -%>
+			<br>
+			<em class="info"><%= l(:text_comma_separated) %></em>
+		 </p>
+	</div>
+
+	<div id="fax_fields">
+		<p>
+			<%= f.text_field :fax, label: l(:field_contact_fax), style: "width:90%;" -%>
+			<br>
+			<em class="info"><%= l(:text_comma_separated) %></em>
+		 </p>
+	</div>
+
 	<p>
 		<%= f.text_field 'email', :label=>l(:field_contact_email), :style => "width:90%;" -%>
 		<br>

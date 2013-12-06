@@ -23,6 +23,9 @@ class Contact < ActiveRecord::Base
 
   attr_accessor :phones
   attr_accessor :emails
+  attr_accessor :faxes
+  attr_accessor :mobile_phones
+
   acts_as_customizable
   acts_as_viewable
   acts_as_taggable
@@ -293,11 +296,19 @@ class Contact < ActiveRecord::Base
   end
 
   def phones
-    @phones || self.phone ? self.phone.split( /, */) : []
+    @phones || self.phone ? self.phone.split( /, +/) : []
+  end
+
+  def faxes
+    @faxes || self.fax ? self.fax.split( /, +/) : []
+  end
+
+  def mobile_phones
+    @mobile_phones || self.mobile_phones ? self.mobile_phones.split( /, +/) : []
   end
 
   def emails
-    @emails || self.email ? self.email.split( /, */).map{|m| m.strip} : []
+    @emails || self.email ? self.email.split( /, */).map(&:strip) : []
   end
 
   def primary_email
