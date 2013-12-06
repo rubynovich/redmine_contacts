@@ -6,7 +6,7 @@
 	function togglePerson(element) {
 		if (element.checked) {
 		  $('#person_data').hide();
-		  $('#mobile_phone_fields').show();
+		  $('#mobile_phone_fields').hide();
 		  $('#job_title label').get(0).innerHTML ='<%= l(:field_company_field) %>';
 		  $('#first_name label').get(0).innerHTML='<%= l(:field_company_name) %>' + '<span class="required"> *</span>';
 		  $('label[for="contact_phone"]').get(0).innerHTML='<%= l(:field_contact_phone) %>';
@@ -14,7 +14,7 @@
 		  $('label[for="contact_email"]').get(0).innerHTML='<%= l(:field_contact_email) %>';
 		} else {
 		  $('#person_data').show();
-		  $('#mobile_phone_fields').hide();
+		  $('#mobile_phone_fields').show();
 		 	$('#job_title label').get(0).innerHTML ='<%= l(:field_contact_job_title) %>' + '<span class="required"> *</span>';
 		  $('#first_name label').get(0).innerHTML='<%= l(:field_contact_first_name) %>' + '<span class="required"> *</span>';
 		  $('label[for="contact_phone"]').get(0).innerHTML='<%= l(:field_contact_phone) %>' + '<span class="required"> *</span>';
