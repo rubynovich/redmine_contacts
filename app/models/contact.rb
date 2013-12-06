@@ -304,7 +304,7 @@ class Contact < ActiveRecord::Base
   end
 
   def mobile_phones
-    @mobile_phones || self.mobile_phones ? self.mobile_phones.split( /, +/) : []
+    @mobile_phones || self.mobile_phone ? self.mobile_phone.split( /, +/) : []
   end
 
   def emails
