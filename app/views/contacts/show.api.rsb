@@ -24,6 +24,15 @@ api.contact do
     end
   end if @contact.phones.any?
 
+  api.array :mobile_phones do
+    @contact.mobile_phones.each do |phone|
+      api.mobile_phone do
+        api.number phone
+      end
+    end
+  end if @contact.mobile_phones.any?
+
+
   api.array :faxes do
     @contact.faxes.each do |phone|
       api.fax do

@@ -57,7 +57,7 @@
 					<% end %>
 
 					<% if @contact.emails.any? %>
-					  <% if @contact.emails.each do |email| %>
+					  <% @contact.emails.each do |email| %>
     					<li class="email icon icon-email"><%= mail_to email %></li>
     				<% end %>
 					<% end %>
