@@ -99,7 +99,7 @@ class Contact < ActiveRecord::Base
   validates_uniqueness_of :first_name, :scope => [:last_name, :middle_name, :company]
   validates_presence_of :project, :message => "Contact should have project"
   validates_presence_of :address, if: -> { self.is_company? }
-  validates_presence_of :last_name, :company, :job_title, :email, :phone , unless: -> { self.is_company? }
+  validates_presence_of :last_name, :company, :job_title, :email, :mobile_phone, unless: -> { self.is_company? }
 
   def self.visible_condition(user, options={})
     user_ids = [user.id] + user.groups.map(&:id)
