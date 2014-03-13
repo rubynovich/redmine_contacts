@@ -100,7 +100,8 @@ class Contact < ActiveRecord::Base
   validates_presence_of :project, :message => "Contact should have project"
   validates_presence_of :address, if: -> { self.is_company? }
   validates_presence_of :last_name, :company, :job_title, :email, :mobile_phone, unless: -> { self.is_company? }
-
+  validates_format_of :email, :with => /^[0-9a-zA-Z][0-9a-zA-Z\-\_]*(\.[0-9a-zA-Z\-\_]*[0-9a-zA-Z]+)*@[0-9a-zA-Z][0-9a-zA-Z\-\_]*(\.[0-9a-zA-Z\-\_]*[0-9a-zA-Z]+)*\.[a-zA-Z]{2,}(\,[0-9a-zA-Z][0-9a-zA-Z\-\_]*(\.[0-9a-zA-Z\-\_]*[0-9a-zA-Z]+)*@[0-9a-zA-Z][0-9a-zA-Z\-\_]*(\.[0-9a-zA-Z\-\_]*[0-9a-zA-Z]+)*\.[a-zA-Z]{2,})*$/i
+  
   def self.visible_condition(user, options={})
     user_ids = [user.id] + user.groups.map(&:id)
 
