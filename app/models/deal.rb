@@ -54,10 +54,22 @@ class Deal < ActiveRecord::Base
   validates_numericality_of :price, :allow_nil => true 
   
   after_update :create_deal_process
+  after_update :send_notify_update
+  after_create :send_notify_create
+
+
      
   
   include ActionView::Helpers::NumberHelper
   include ::DealsHelper
+
+  def send_notify_update
+    Mailer.crm_deal_updated(self).deliver if self.status_id_changed? && Setting.notified_events.include?('crm_deal_updated')
+  end
+
+  def send_notify_create
+    Mailer.crm_deal_add(self).deliver if Setting.notified_events.include?('crm_deal_added')
+  end
   
   def after_initialize
     if new_record?
