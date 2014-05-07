@@ -2,7 +2,7 @@
 
 # require 'redmine'  
 
-CONTACTS_VERSION_NUMBER = '3.2.3'
+CONTACTS_VERSION_NUMBER = '3.2.3a'
 CONTACTS_VERSION_STATUS = ''
 
 Redmine::Plugin.register :redmine_contacts do
