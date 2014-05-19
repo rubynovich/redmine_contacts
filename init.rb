@@ -2,11 +2,8 @@
 
 # require 'redmine'  
 
-CONTACTS_VERSION_NUMBER = '3.2.3'
+CONTACTS_VERSION_NUMBER = '3.2.3a'
 CONTACTS_VERSION_STATUS = ''
-  
-ActiveRecord::Base.observers += [:contact_observer, :note_observer]
-ActiveRecord::Base.observers += [:deal_observer]
 
 Redmine::Plugin.register :redmine_contacts do
   name 'Redmine CRM plugin'

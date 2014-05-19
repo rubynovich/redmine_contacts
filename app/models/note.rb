@@ -22,9 +22,19 @@ class Note < ActiveRecord::Base
   @@note_types = {:email => 0, :call => 1, :meeting => 2}
   cattr_accessor :cut_length
   @@cut_length = 1000
+
+  after_create :send_notify_create
+
   
   def self.note_types
     @@note_types
+  end
+
+  def send_notify_create
+    if self.source.class == Contact && !self.source.is_company
+      parent = Contact.find_by_first_name(self.source.company)
+    end
+    Mailer.crm_note_add(self, parent).deliver if Setting.notified_events.include?('crm_note_added')
   end
 
   def note_time

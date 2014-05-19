@@ -100,7 +100,11 @@ class Contact < ActiveRecord::Base
   validates_presence_of :project, :message => "Contact should have project"
   validates_presence_of :address, if: -> { self.is_company? }
   validates_presence_of :last_name, :company, :job_title, :email, :mobile_phone, unless: -> { self.is_company? }
+  validates_format_of :email, :with => /^[0-9a-zA-Z][0-9a-zA-Z\-\_]*(\.[0-9a-zA-Z\-\_]*[0-9a-zA-Z]+)*@[0-9a-zA-Z][0-9a-zA-Z\-\_]*(\.[0-9a-zA-Z\-\_]*[0-9a-zA-Z]+)*\.[a-zA-Z]{2,}(\,[0-9a-zA-Z][0-9a-zA-Z\-\_]*(\.[0-9a-zA-Z\-\_]*[0-9a-zA-Z]+)*@[0-9a-zA-Z][0-9a-zA-Z\-\_]*(\.[0-9a-zA-Z\-\_]*[0-9a-zA-Z]+)*\.[a-zA-Z]{2,})*$/i
 
+  after_create :send_notify_create
+
+  
   def self.visible_condition(user, options={})
     user_ids = [user.id] + user.groups.map(&:id)
 
@@ -143,6 +147,10 @@ class Contact < ActiveRecord::Base
   # def self.allowed_to_condition(user, permission, options={})
   #   Project.allowed_to_condition(user, permission)
   # end
+
+  def send_notify_create
+    Mailer.crm_contact_add(self).deliver if Setting.notified_events.include?('crm_contact_added')
+  end
 
   def all_deals
     @all_deals ||= (self.deals + self.related_deals ).uniq.sort!{|x, y| x.status_id <=> y.status_id }
