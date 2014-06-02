@@ -57,6 +57,9 @@ class ContactsController < ApplicationController
                               :order => sort_clause,
                               :offset => @offset,
                               :limit => @limit)
+      @contacts_count = @query.contacts(:include => [:projects, :avatar],
+                                        :search => params[:search]).count
+
       @filter_tags = @query.filters["tags"] && @query.filters["tags"][:values]
 
       respond_to do |format|
