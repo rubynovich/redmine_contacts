@@ -66,7 +66,7 @@ class Contact < ActiveRecord::Base
 
   scope :by_project, lambda {|prj| joins(:projects).where("#{Project.table_name}.id = ?", prj) unless prj.blank? }
 
-  scope :like_by, lambda {|field, search| {:conditions => ["LOWER(#{Contact.table_name}.#{field}) LIKE ?", search.downcase + "%"] }}
+  scope :like_by, lambda {|field, search| {:conditions => ["LOWER(#{Contact.table_name}.#{field}) LIKE ?", "%" + search.downcase + "%"] }}
 
   scope :by_name, lambda {|search| {:conditions =>   ["(LOWER(#{Contact.table_name}.first_name) LIKE ? OR
                                                                   LOWER(#{Contact.table_name}.last_name) LIKE ? OR
