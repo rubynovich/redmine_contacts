@@ -17,21 +17,29 @@ api.array :contacts, api_meta(:total_count => @contacts_count, :offset => @offse
 	  api.author(:id => contact.author_id, :name => contact.author.name) unless contact.author.nil? 
 	  api.assigned_to(:id => contact.assigned_to_id, :name => contact.assigned_to.name) unless contact.assigned_to.nil?
 
-    api.array :phones do
-      contact.phones.each do |phone|
-        api.phone do 
-          api.number phone
+      api.array :phones do
+        contact.phones.each do |phone|
+          api.phone do
+            api.number phone
+          end
         end
-      end
-    end if contact.phones.any?
+      end if contact.phones.any?
 
-    api.array :emails do
-      contact.emails.each do |email|
-        api.email do
-          api.address email
+      api.array :emails do
+        contact.emails.each do |email|
+          api.email do
+            api.address email
+          end
         end
-      end
-    end if contact.emails.any?
+      end if contact.emails.any?
+
+      api.array :mobile_phones do
+        @contact.mobile_phones.each do |phone|
+          api.mobile_phone do
+            api.number phone
+          end
+        end
+      end if @contact.mobile_phones.any? && !@contact.is_company?
 
 
 	  api.tag_list contact.tag_list
