@@ -39,7 +39,7 @@ api.array :contacts, api_meta(:total_count => @contacts_count, :offset => @offse
             api.number phone
           end
         end
-      end if @contact.mobile_phones.any? && !@contact.is_company?
+      end if contact.mobile_phones.any? && !contact.is_company?
 
 
 	  api.tag_list contact.tag_list
