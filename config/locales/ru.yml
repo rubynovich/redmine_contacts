@@ -285,3 +285,9 @@ ru:
   label_project_by_default: Проект по умолчанию
   field_contact_fax: Факс
   field_contact_mobile_phone: Мобильный телефон
+  label_contacts_removal: Удаление контактов
+  label_contacts_table_name: Название таблицы
+  label_contacts_field_name: Название поля
+  label_contacts_polymorphic_check: Полиморфная связь
+  label_contacts_polymorphic_field: Полиморфное поле
+  label_contacts_add_settings: Добавить настройки

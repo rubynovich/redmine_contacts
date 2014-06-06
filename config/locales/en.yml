@@ -284,3 +284,9 @@ en:
   label_crm_has_deals: Has deals
   label_crm_has_open_issues: Open issues
   label_crm_note: Note
+  label_contacts_removal: Removal contacts
+  label_contacts_table_name: Table name
+  label_contacts_field_name: Field name
+  label_contacts_polymorphic_check: Polimorphic connection
+  label_contacts_polymorphic_field: Polimorphic field
+  label_contacts_add_settings: Add settings
