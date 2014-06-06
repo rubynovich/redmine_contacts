@@ -34,7 +34,7 @@ api.array :contacts, api_meta(:total_count => @contacts_count, :offset => @offse
       end if contact.emails.any?
 
       api.array :mobile_phones do
-        @contact.mobile_phones.each do |phone|
+        contact.mobile_phones.each do |phone|
           api.mobile_phone do
             api.number phone
           end
