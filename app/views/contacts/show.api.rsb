@@ -34,7 +34,7 @@ api.contact do
 
 
   api.array :faxes do
-    @contact.faxes.each do |phone|
+    @contact.faxes.each do |fax|
       api.fax do
         api.number fax
       end
