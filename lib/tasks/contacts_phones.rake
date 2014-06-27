@@ -96,8 +96,8 @@ namespace :redmine do
                 puts "---------------------------------" 
                 
             end
-            Contact.where(:phone => "0").update_all(phone: nil)
-            Contact.where(:mobile_phone => "0").update_all(mobile_phone: nil)
+            Contact.where("(LENGTH(phone) < 5) AND (LENGTH(phone) > 0)").update_all(phone: nil)
+            Contact.where("(LENGTH(mobile_phone) < 5) AND (LENGTH(phone) > 0)").update_all(mobile_phone: nil)
         end
 
     end
