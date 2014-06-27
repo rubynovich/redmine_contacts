@@ -102,6 +102,9 @@ class Contact < ActiveRecord::Base
   validates_presence_of :last_name, :company, :job_title, :mobile_phone, unless: -> { self.is_company? }
   validates_presence_of :email, unless: -> { self.is_company? }
   validates_format_of :email, :with => /^[0-9a-zA-Z][0-9a-zA-Z\-\_]*(\.[0-9a-zA-Z\-\_]*[0-9a-zA-Z]+)*@[0-9a-zA-Z][0-9a-zA-Z\-\_]*(\.[0-9a-zA-Z\-\_]*[0-9a-zA-Z]+)*\.[a-zA-Z]{2,}(\,[0-9a-zA-Z][0-9a-zA-Z\-\_]*(\.[0-9a-zA-Z\-\_]*[0-9a-zA-Z]+)*@[0-9a-zA-Z][0-9a-zA-Z\-\_]*(\.[0-9a-zA-Z\-\_]*[0-9a-zA-Z]+)*\.[a-zA-Z]{2,})*$/i, unless: -> { self.is_company? }
+  validates_format_of :phone_ext, :with => /[0-9]+$/i, unless: -> { self.is_company? }
+  validate :phones_correct
+  validate :mobile_phones_correct, unless: -> { self.is_company? }
 
   after_create :send_notify_create
 
@@ -304,7 +307,11 @@ class Contact < ActiveRecord::Base
   end
 
   def phones
-    @phones || self.phone ? self.phone.split( /, +/) : []
+    @phones || self.phone ? self.phone.split(/,\s+/) : []
+  end
+
+  def phones_ext
+    @phones_ext || self.phone_ext ? self.phone_ext.split(/,/) : []
   end
 
   def faxes
@@ -312,7 +319,27 @@ class Contact < ActiveRecord::Base
   end
 
   def mobile_phones
-    @mobile_phones || self.mobile_phone ? self.mobile_phone.split( /, +/) : []
+    @mobile_phones || self.mobile_phone ? self.mobile_phone.split(/,\s+/) : []
+  end
+
+  def some_phones_correct(some_phones, phone_type, label)
+    Rails.logger.error("validate".red)
+    if some_phones.present?
+      some_phones.each do |phone|
+        unless phone.index(/^\s*\+7\s{1}\([0-9]{3}\)\s{1}[0-9]{3}\-[0-9]{2}\-[0-9]{2}\s*$/)
+          errors.add(phone_type, label)
+          break
+        end
+      end
+    end
+  end
+
+  def phones_correct
+    some_phones_correct(phones, :phone, :label_phones_errors)
+  end
+
+  def mobile_phones_correct
+    some_phones_correct(mobile_phones, :mobile_phone, :label_mobile_phones_errors)
   end
 
   def emails

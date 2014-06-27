@@ -1,3 +1,233 @@
+<script type="text/javascript">
+
+  function checkPhone(item, item_correct) {
+	var error_message =  "<%= l(:field_contact_phone_correct) %>";
+	var has_error = "";
+	var end_str = '';
+	var val = document.getElementById(item).value;
+	if (val.length < 3) {
+
+	   has_error = error_message; 
+	   val = '+7 '; 
+	 } 
+	 else if (val.length == 3){ // '+7 '
+	 	if ( /\+7\s?/.test(val) ){
+	 		val = '+7 (';
+	 		has_error = '';
+	 	}
+	 }
+	 else if ( (val.length > 4) && (val.length < 8) ){ // '+7 (XXX'
+	 	if ( /^\+7\s{1}\([0-9]{1,3}$/.test(val) ) 
+	 		has_error = '';		 	
+	 	else 
+	 		has_error = error_message;
+	 	
+	 }
+	 else
+	    has_error = '' ;
+
+	 if (val.length == 8){  // "+7 (XXX)"
+	 	if ( /^\+7\s{1}\([0-9]{3}[0-9]{1}$/.test(val) ) {
+	 		has_error = '';		 	
+	 		end_str = val.substr(-1);
+	 		val = val.substr(0, val.length -1) + ")" + end_str;
+	 	}
+	 	else if ( /^\+7\s{1}\([0-9]{3}[^\)\s]$/.test(val) )
+	 		has_error = error_message;
+	 	else if ( /^\+7\s{1}\([0-9]{3}[\s{1}\)]$/.test(val) ){
+	 		has_error = '';
+	 		val = val.substr(0, val.length -1) + ")";
+	 	}
+
+	 }
+	 if (val.length == 9){  // "+7 (XXX) "
+	 	if ( /^\+7\s{1}\([0-9]{3}\)[0-9]{1}$/.test(val) ) {
+	 		has_error = '';		 	
+	 		end_str = val.substr(-1);
+	 		val = val.substr(0, val.length -1) + " " + end_str;
+	 	}
+	 	else if ( /^\+7\s{1}\([0-9]{3}\)[^\s]$/.test(val) )
+	 		has_error = error_message; 	
+
+	 }
+
+	 if ((val.length > 9) && (val.length < 13)){  // '+7 (XXX) XXX'
+	 	if ( /^\+7\s{1}\([0-9]{3}\)\s{1}[0-9]{1,3}$/.test(val) ) 
+	 		has_error = '';		 	
+	 	else 
+	 		has_error = error_message;
+	 }
+	 if (val.length == 13){  // '+7 (XXX) XXX-'
+	 	if ( /^\+7\s{1}\([0-9]{3}\)\s{1}[0-9]{3}[0-9]{1}$/.test(val) ) {
+	 		has_error = '';		 	
+	 		end_str = val.substr(-1);
+	 		val = val.substr(0, val.length -1) + "-" + end_str;
+	 	}
+	 	else if ( /^\+7\s{1}\([0-9]{3}\)\s{1}[0-9]{3}[^\-\s]$/.test(val) )
+	 		has_error = error_message;
+	 	else if ( /^\+7\s{1}\([0-9]{3}\)\s{1}[0-9]{3}\s{1}$/.test(val) ){
+	 		has_error = '';
+	 		val = val.substr(0, val.length -1) + "-";
+	 	}
+	 }
+
+	 if ((val.length > 13) && (val.length < 16)){  // '+7 (XXX) XXX-XX'
+	 	if ( /^\+7\s{1}\([0-9]{3}\)\s{1}[0-9]{3}\-[0-9]{1,2}$/.test(val) ) 
+	 		has_error = '';		 	
+	 	else 
+	 		has_error = error_message;
+	 }
+	 if (val.length == 16){  // '+7 (XXX) XXX-XX-'
+		if ( /^\+7\s{1}\([0-9]{3}\)\s{1}[0-9]{3}\-[0-9]{2}[0-9]{1}$/.test(val) ) {
+	 		has_error = '';		 	
+	 		end_str = val.substr(-1);
+	 		val = val.substr(0, val.length -1) + "-" + end_str;
+	 	}
+	 	else if ( /^\+7\s{1}\([0-9]{3}\)\s{1}[0-9]{3}\-[0-9]{2}[^\-\s]$/.test(val) )
+	 		has_error = error_message;
+	 	else if( /^\+7\s{1}\([0-9]{3}\)\s{1}[0-9]{3}\-[0-9]{2}\s{1}$/.test(val) ){
+	 		has_error = '';
+	 		val = val.substr(0, val.length -1) + "-";
+	 	}
+	 }
+	 if ((val.length > 16) && (val.length <= 18)){	// '+7 (XXX) XXX-XX-XX'
+	 	if ( /^\+7\s{1}\([0-9]{3}\)\s{1}[0-9]{3}\-[0-9]{2}\-[0-9]{1,2}$/.test(val) ) 
+	 		has_error = '';		 	
+	 	else 
+	 		has_error = error_message;
+	 }
+	 if (val.length > 18)
+	 	has_error = error_message;
+
+		document.getElementById(item).value = val;
+		document.getElementById(item_correct).innerHTML = has_error;
+	 	checkAll(); 
+	}
+
+	function addPhone(num, phone_type){
+		var elId;
+		var newP = document.createElement('p');
+		var newLabel = document.createElement('label');
+		var newEm = document.createElement('em');
+		var newA = document.createElement('a');
+
+		var num_int = parseInt(num, 10);
+
+		var newTextField = document.createElement('input');
+		var newTextFieldExt = document.createElement('input');
+		newTextField.type = "text";
+		var type = "phone";
+		var correct_type = 'phone_correct';
+		if (phone_type != 0){
+			type = "mobile";
+			correct_type = 'phone_mobile_correct';
+		}
+
+		newTextField.id = type+num_int;
+		newTextField.name = type+num_int;
+		newTextField.setAttribute('onkeyup',"checkPhone('" + type + num_int + "', '" + correct_type + num_int + "')");
+		newTextField.setAttribute('onkeypress', "checkPhone('" + type + num_int + "', '" + correct_type + num_int + "')");
+		newTextField.setAttribute('onfocus',"checkPhone('" + type + num_int + "', '" + correct_type + num_int + "')");
+		newTextField.title = "+7 (XXX) XXX-XX-XX";
+		newTextField.setAttribute("size",30);
+		newTextField.setAttribute("maxlength",18);
+		
+		newTextFieldExt.setAttribute("size",6);
+		newTextFieldExt.setAttribute("maxlength",10);
+
+		newEm.id = correct_type+num_int;
+		newEm.value = "";
+
+		newA.setAttribute('class', "icon icon-del");
+		newA.href = "javascript:void(0)";
+		newA.setAttribute('onclick',"delPhone("+num_int+", " + phone_type + ")");
+
+		if (phone_type == 0){
+			newP.id = "phone_mgts_"+num_int;
+		} else {
+			newP.id = "phone_mobile_"+num_int;
+		}
+
+		newP.appendChild(newLabel);
+		newP.appendChild(newTextField);
+		if (phone_type == 0){
+			var SpanExt = document.createElement('span');
+			SpanExt.innerHTML = "&nbsp;&nbsp;доб.&nbsp;";
+			newP.appendChild(SpanExt);
+			newP.appendChild(newTextFieldExt);
+		}
+		newP.appendChild(newA);
+
+		num_int = 1 + num_int;
+
+		if (phone_type == 0){
+			elId = document.getElementById('contact_phone_counter');
+			document.getElementById('contact_phone_counter').value = num_int;
+		} else {
+			elId = document.getElementById('contact_phone_mobile_counter');
+			document.getElementById('contact_phone_mobile_counter').value = num_int;
+		}
+		elId.parentNode.insertBefore(newP, elId);
+		elId.parentNode.insertBefore(newEm, elId);
+		if (phone_type == 0){
+			document.getElementById('phone_id').setAttribute('onclick',"addPhone("+num_int+", " + phone_type + ")");
+		} else {
+			document.getElementById('phone_mobile_id').setAttribute('onclick',"addPhone("+num_int+", " + phone_type + ")");
+		}
+		checkAll(); 			
+	}
+
+	function delPhone(num, phone_type){			
+		if (phone_type == 0) {
+			phone_external = 'phone_mgts_';
+			phone_correct = 'phone_correct';
+			contact_phone_counter = 'contact_phone_counter';
+			phone = 'phone';
+		} else {
+			phone_external = 'phone_mobile_';
+			phone_correct = 'phone_mobile_correct';
+			contact_phone_counter = 'contact_phone_mobile_counter';
+			phone = 'mobile';
+		}
+		if (num > 0){
+			var idd = phone_external+num;
+			var elem = document.getElementById(phone_external+num);
+			elem.parentNode.removeChild(elem);
+			elem = document.getElementById(phone_correct+num);
+			elem.parentNode.removeChild(elem);
+		}
+		else
+		{
+			if (document.getElementById(contact_phone_counter).value > 1){
+				var i_max = document.getElementById(contact_phone_counter).value;
+				var is_deleted = 0;
+				for (var i = 1; i < i_max; i++)
+					if (document.getElementById(phone+i)){
+						document.getElementById(phone+'0').value = document.getElementById(phone+i).value;
+						var elem = document.getElementById(phone_external+i);
+						elem.parentNode.removeChild(elem);
+						elem = document.getElementById(phone_correct+i);
+						elem.parentNode.removeChild(elem);
+						is_deleted = 1;
+						break;
+					}
+					if (is_deleted == 0){
+						document.getElementById(phone+'0').value = "";
+						document.getElementById(phone_correct+'0').value = "";
+					}
+			}
+			else
+			{
+				document.getElementById(phone+'0').value = "";
+				document.getElementById(phone_correct+'0').value = "";					
+			}
+		}		
+	}
+
+
+</script>
+
+
 <%= back_url_hidden_field_tag %>
 <%= error_messages_for 'contact' %>
 <div class = "box tabular" id="contact_data">
@@ -7,7 +237,7 @@
 		if (element.checked) { // company
 		  $('#person_data').hide();
 		  $('#mobile_phone_fields').hide();
-      $('label[for="contact_mobile_phone"]').get(0).innerHTML='<%= l(:field_contact_mobile_phone) %>';
+      //$('label[for="phone_mobile_0"]').innerHTML='<%= l(:field_contact_mobile_phone) %>';
 		  $('#job_title label').get(0).innerHTML ='<%= l(:field_company_field) %>';
 		  $('#first_name label').get(0).innerHTML='<%= l(:field_company_name) %>' + '<span class="required"> *</span>';
 		  $('label[for="contact_address"]').get(0).innerHTML='<%= l(:field_contact_address) %>' + '<span class="required"> *</span>';
@@ -15,8 +245,8 @@
 		} else { // person
 		  $('#person_data').show();
 		  $('#mobile_phone_fields').show();
-      $('label[for="contact_mobile_phone"]').get(0).innerHTML='<%= l(:field_contact_mobile_phone) %>' + '<span class="required"> *</span>';
-		 	$('#job_title label').get(0).innerHTML ='<%= l(:field_contact_job_title) %>' + '<span class="required"> *</span>';
+      	  $("#phone_mobile_0 label").get(0).innerHTML='<%= l(:field_contact_mobile_phone) %>' + '<span class="required"> *</span>';
+		  $('#job_title label').get(0).innerHTML ='<%= l(:field_contact_job_title) %>' + '<span class="required"> *</span>';
 		  $('#first_name label').get(0).innerHTML='<%= l(:field_contact_first_name) %>' + '<span class="required"> *</span>';
 		  $('label[for="contact_email"]').get(0).innerHTML='<%= l(:field_contact_email) %>' + '<span class="required"> *</span>';
 		  $('label[for="contact_address"]').get(0).innerHTML='<%= l(:field_contact_address) %>';
@@ -57,20 +287,44 @@
 	<p id="job_title"><%= f.text_field :job_title, :label => !@contact.is_company ? l(:field_contact_job_title) : l(:field_company_field) %></p>
 	<p class="extended"><%= f.text_area 'address', :label=>l(:field_contact_address), :rows => 5, :style => "width:90%;" -%></p>
 
-	<div id="phones_fields">
-		<p>
-			<%= f.text_field :phone, :label=>l(:field_contact_phone), :style => "width:90%;" -%>
-			<br>
-			<em class="info"><%= l(:text_comma_separated) %></em>
-		 </p>
+	<div id="phones_fields">		
+		<% if @contact.phones.count > 0 %>
+			<% @contact.phones.each_with_index do |phone, index| %>
+				<p id ="phone_mgts_<%= index %>"><label><%=  l(:field_contact_phone) if index == 0 %></label><%= text_field_tag "phone"+index.to_s, phone, :size => 30, :maxlength =>18, :title => "+7 (XXX) XXX-XX-XX", :onkeypress => "checkPhone('phone"+index.to_s+"', 'phone_correct"+index.to_s+"')", :onfocus => "checkPhone('phone"+index.to_s+"', 'phone_correct"+index.to_s+"')", :onkeyup => "checkPhone('phone"+index.to_s+"', 'phone_correct"+index.to_s+"')"%><span>&nbsp;&nbsp;доб.&nbsp;</span><%= text_field_tag "phone_ext"+index.to_s, @contact.phones_ext[index], :size => 6, :maxlength =>10 -%><a class="icon icon-del" href="javascript:void(0)" onclick="delPhone(<%= index %>, 0)" ></a></p>
+ 
+				<em id="phone_correct<%= index %>" value = ""></em> 
+	      	<% end %> 
+	      	<%= f.hidden_field :phone_counter, :value => @contact.phones.count.to_s %>
+
+			<p id="add_phone"><a id="phone_id" href="javascript:void(0)" onclick="addPhone(<%=@contact.phones.count%>, 0)" class="icon icon-add">Добавить телефон</a></p>
+		<% else %>
+	    	<p id ="phone_mgts_0"><label><%= l(:field_contact_phone)%></label><%= text_field_tag "phone0", @contact.phone, :size => 30, :maxlength =>18, :title => "+7 (XXX) XXX-XX-XX", :onkeypress => "checkPhone('phone0', 'phone_correct0')", :onfocus => "checkPhone('phone0', 'phone_correct0')", :onkeyup => "checkPhone('phone0', 'phone_correct0')"%><a class="icon icon-del" href="javascript:void(0)" onclick="delPhone(0, 0)" ></a></p>  
+			<em id="phone_correct0" value = ""></em> 
+	      	<%= f.hidden_field :phone_counter, :value => 1 %>
+	      	<p><a id="phone_id" href="javascript:void(0)" onclick="addPhone(1, 0)" class="icon icon-add">Добавить телефон</a></p>
+
+		<% end %>
+		
 	</div>
 
-	<div id="mobile_phone_fields">
-		<p>
-			<%= f.text_field :mobile_phone, label: l(:field_contact_mobile_phone), style: "width:90%;" -%>
-			<br>
-			<em class="info"><%= l(:text_comma_separated) %></em>
-		 </p>
+	<div id="mobile_phone_fields">	
+		<% if @contact.mobile_phones.count > 0 %>
+			<% @contact.mobile_phones.each_with_index do |phone, index| %>
+				<p id ="phone_mobile_<%= index %>"><label><%=  l(:field_contact_mobile_phone) if index == 0 %></label><%= text_field_tag "mobile"+index.to_s, phone, :size => 30, :maxlength =>18, :title => "+7 (XXX) XXX-XX-XX", :onkeypress => "checkPhone('mobile"+index.to_s+"', 'phone_mobile_correct"+index.to_s+"')", :onfocus => "checkPhone('mobile"+index.to_s+"', 'phone_mobile_correct"+index.to_s+"')", :onkeyup => "checkPhone('mobile"+index.to_s+"', 'phone_mobile_correct"+index.to_s+"')"%><a class="icon icon-del" href="javascript:void(0)" onclick="delPhone(<%= index %>, 1)" ></a></p>  
+				<em id="phone_mobile_correct<%= index %>" value = ""></em> 
+	      	<% end %> 
+	      	<%= f.hidden_field :phone_mobile_counter, :value => @contact.mobile_phones.count.to_s %>
+
+			<p id="add_phone"><a id="phone_mobile_id" href="javascript:void(0)" onclick="addPhone(<%=@contact.mobile_phones.count%>, 1)" class="icon icon-add">Добавить мобильный телефон</a></p>
+		<% else %>
+	    	<p id ="phone_mobile_0"><label><%= l(:field_contact_mobile_phone)%></label><%= text_field_tag "mobile0", @contact.mobile_phone, :size => 30, :maxlength =>18, :title => "+7 (XXX) XXX-XX-XX", :onkeypress => "checkPhone('mobile0', 'phone_mobile_correct0')", :onfocus => "checkPhone('mobile0', 'phone_mobile_correct0')", :onkeyup => "checkPhone('mobile0', 'phone_mobile_correct0')"%><a class="icon icon-del" href="javascript:void(0)" onclick="delPhone(0, 1)" ></a></p>  
+			<em id="phone_correct0" value = ""></em> 
+	      	<%= f.hidden_field :phone_mobile_counter, :value => 1 %>
+	      	<p><a id="phone_mobile_id" href="javascript:void(0)" onclick="addPhone(1, 1)" class="icon icon-add">Добавить мобильный телефон</a></p>
+
+		<% end %>
+		
+
 	</div>
 
 	<div id="fax_fields">

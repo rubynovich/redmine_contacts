@@ -291,3 +291,14 @@ ru:
   label_contacts_polymorphic_check: Полиморфная связь
   label_contacts_polymorphic_field: Полиморфное поле
   label_contacts_add_settings: Добавить настройки
+  field_contact_phone_correct: Введите номер телефона в соответствии с шаблоном +7 (XXX) XXX-XX-XX
+  
+  activerecord:
+    errors:
+      models:
+        contact:
+          attributes:
+            phone:
+              label_phones_errors: ':  ошибка в формате телефона, введите по образцу +7 (XXX) XXX-XX-XX'
+            mobile_phone:
+              label_mobile_phones_errors: ':  ошибка в формате мобильного телефона, введите по образцу +7 (XXX) XXX-XX-XX'
