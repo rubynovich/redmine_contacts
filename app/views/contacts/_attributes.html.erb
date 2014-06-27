@@ -31,7 +31,7 @@
 		<td class = "phones">
 		<% @contact.phones.each_with_index do |phone, i| %>
 			<span  class="value"><%= h phone %> </span>
-			<% if @contact.phones_ext[i].size > 0 %>
+			<% if !@contact.phones_ext.blank? && @contact.phones_ext[i].size > 0 %>
 				<span class="value"> доб. <%= h @contact.phones_ext[i] %> </span>
 			<% end %>
 			<br>
