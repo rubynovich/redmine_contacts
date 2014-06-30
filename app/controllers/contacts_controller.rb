@@ -124,11 +124,15 @@ class ContactsController < ApplicationController
     params[:contact][:phone] = ""
     params[:contact][:phone_ext] = ""
     params[:contact][:phone_counter].to_i.times do |i|
-      params[:contact][:phone] << ", " if (i > 0) && !params["phone"+i.to_s].blank?
-      params[:contact][:phone] << params["phone"+i.to_s] unless params["phone"+i.to_s].blank?
       unless params["phone"+i.to_s].blank?
+        params[:contact][:phone] << ", " if (i > 0)
+        params[:contact][:phone] << params["phone"+i.to_s]
         params[:contact][:phone_ext] << "," if (i > 0) 
-        params[:contact][:phone_ext] << params["phone_ext"+i.to_s] unless params["phone_ext"+i.to_s].blank?
+        unless params["phone_ext"+i.to_s].blank?
+          params[:contact][:phone_ext] << params["phone_ext"+i.to_s]
+        else
+          params[:contact][:phone_ext] << " "
+        end
       end
       params.delete(params["phone"+i.to_s])
       params.delete(params["phone_ext"+i.to_s])
@@ -182,11 +186,15 @@ class ContactsController < ApplicationController
     params[:contact][:phone] = ""
     params[:contact][:phone_ext] = ""
     params[:contact][:phone_counter].to_i.times do |i|
-      params[:contact][:phone] << ", " if (i > 0) && !params["phone"+i.to_s].blank?
-      params[:contact][:phone] << params["phone"+i.to_s] unless params["phone"+i.to_s].blank?
       unless params["phone"+i.to_s].blank?
+        params[:contact][:phone] << ", " if (i > 0)
+        params[:contact][:phone] << params["phone"+i.to_s]
         params[:contact][:phone_ext] << "," if (i > 0) 
-        params[:contact][:phone_ext] << params["phone_ext"+i.to_s] unless params["phone_ext"+i.to_s].blank?
+        unless params["phone_ext"+i.to_s].blank?
+          params[:contact][:phone_ext] << params["phone_ext"+i.to_s]
+        else
+          params[:contact][:phone_ext] << " "
+        end
       end
       params.delete(params["phone"+i.to_s])
       params.delete(params["phone_ext"+i.to_s])
