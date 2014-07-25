@@ -102,7 +102,7 @@ class Contact < ActiveRecord::Base
   validates_presence_of :last_name, :company, :job_title, :mobile_phone, unless: -> { self.is_company? }
   validates_presence_of :email, unless: -> { self.is_company? }
   validates_format_of :email, :with => /^[0-9a-zA-Z][0-9a-zA-Z\-\_]*(\.[0-9a-zA-Z\-\_]*[0-9a-zA-Z]+)*@[0-9a-zA-Z][0-9a-zA-Z\-\_]*(\.[0-9a-zA-Z\-\_]*[0-9a-zA-Z]+)*\.[a-zA-Z]{2,}(\,[0-9a-zA-Z][0-9a-zA-Z\-\_]*(\.[0-9a-zA-Z\-\_]*[0-9a-zA-Z]+)*@[0-9a-zA-Z][0-9a-zA-Z\-\_]*(\.[0-9a-zA-Z\-\_]*[0-9a-zA-Z]+)*\.[a-zA-Z]{2,})*$/i, unless: -> { self.is_company? }
-  validates_format_of :phone_ext, :with => /[0-9]+$/i, unless: -> { self.is_company? }
+  validates_format_of :phone_ext, :with => /[0-9]+/i, unless: -> { self.is_company? }, allow_blank: true
   validate :phones_correct
   validate :mobile_phones_correct, unless: -> { self.is_company? }
 
