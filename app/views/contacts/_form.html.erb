@@ -300,7 +300,7 @@
 
 			<p id="add_phone"><a id="phone_id" href="javascript:void(0)" onclick="addPhone(<%=@contact.phones.count%>, 0)" class="icon icon-add">Добавить телефон</a></p>
 		<% else %>
-	    	<p id ="phone_mgts_0"><label><%= l(:field_contact_phone)%></label><%= text_field_tag "phone0", @contact.phone, :size => 30, :maxlength =>18, :title => "+7 (XXX) XXX-XX-XX", :onkeypress => "checkPhone('phone0', 'phone_correct0')", :onfocus => "checkPhone('phone0', 'phone_correct0')", :onkeyup => "checkPhone('phone0', 'phone_correct0')"%><a class="icon icon-del" href="javascript:void(0)" onclick="delPhone(0, 0)" ></a></p>  
+	    	<p id ="phone_mgts_0"><label><%= l(:field_contact_phone)%></label><%= text_field_tag "phone0", @contact.phone, :size => 30, :maxlength =>18, :title => "+7 (XXX) XXX-XX-XX", :onkeypress => "checkPhone('phone0', 'phone_correct0')", :onfocus => "checkPhone('phone0', 'phone_correct0')", :onkeyup => "checkPhone('phone0', 'phone_correct0')"%><span>&nbsp;&nbsp;доб.&nbsp;</span><%= text_field_tag "phone_ext0", @contact.phones_ext, :size => 6, :maxlength =>10 -%><a class="icon icon-del" href="javascript:void(0)" onclick="delPhone(0, 0)" ></a></p>  
 			<em id="phone_correct0" value = ""></em> 
 	      	<%= f.hidden_field :phone_counter, :value => 1 %>
 	      	<p><a id="phone_id" href="javascript:void(0)" onclick="addPhone(1, 0)" class="icon icon-add">Добавить телефон</a></p>
