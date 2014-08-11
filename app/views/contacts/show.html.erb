@@ -39,9 +39,14 @@
 			<td class="subject_info">
 				<ul>
 					<% if @contact.phones.any? %>
-					  <% @contact.phones.each do |phone| %>
-    					<li class="phone icon icon-phone"><%= phone %></li>
-    				<% end %>
+					  <% @contact.phones.each_with_index do |phone, i| %>
+    					<li class="phone icon icon-phone">
+    					<%= phone %>
+    					<% if !@contact.phones_ext.blank? && @contact.phones_ext[i] != " " %>
+							<span class="value"> доб. <%= h @contact.phones_ext[i] %> </span>
+						<% end %>
+    					</li>
+    				  <% end %>
 					<% end %>
 
 					<% if @contact.mobile_phones.any? && !@contact.is_company? %>

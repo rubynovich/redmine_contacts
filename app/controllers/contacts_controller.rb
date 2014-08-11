@@ -121,6 +121,35 @@ class ContactsController < ApplicationController
   end
 
   def update
+    params[:contact][:phone] = ""
+    params[:contact][:phone_ext] = ""
+    params[:contact][:phone_counter].to_i.times do |i|
+      unless params["phone"+i.to_s].blank?
+        params[:contact][:phone] << ", " if (i > 0)
+        params[:contact][:phone] << params["phone"+i.to_s]
+        params[:contact][:phone_ext] << "," if (i > 0) 
+        unless params["phone_ext"+i.to_s].blank?
+          params[:contact][:phone_ext] << params["phone_ext"+i.to_s]
+        else
+          params[:contact][:phone_ext] << " "
+        end
+      end
+      params.delete(params["phone"+i.to_s])
+      params.delete(params["phone_ext"+i.to_s])
+    end
+    params[:contact].delete(:phone_counter)
+    
+    params[:contact][:mobile_phone] = ""
+    params[:contact][:phone_mobile_counter].to_i.times do |i|
+      params[:contact][:mobile_phone] << ", " if (i > 0) && !params["mobile"+i.to_s].blank?
+      params[:contact][:mobile_phone] << params["mobile"+i.to_s] unless params["mobile"+i.to_s].blank?
+      params.delete(params["mobile"+i.to_s])
+    end
+    params[:contact].delete(:phone_mobile_counter)
+    Rails.logger.error("update".red)
+    Rails.logger.error(params[:contact][:phone_ext].inspect.red)
+    
+
     @contact.tags.clear
     if @contact.update_attributes(params[:contact])
       flash[:notice] = l(:notice_successful_update)
@@ -153,6 +182,34 @@ class ContactsController < ApplicationController
   end
 
   def create
+#    Rails.logger.error(params.inspect.red)
+    
+    params[:contact][:phone] = ""
+    params[:contact][:phone_ext] = ""
+    params[:contact][:phone_counter].to_i.times do |i|
+      unless params["phone"+i.to_s].blank?
+        params[:contact][:phone] << ", " if (i > 0)
+        params[:contact][:phone] << params["phone"+i.to_s]
+        params[:contact][:phone_ext] << "," if (i > 0) 
+        unless params["phone_ext"+i.to_s].blank?
+          params[:contact][:phone_ext] << params["phone_ext"+i.to_s]
+        else
+          params[:contact][:phone_ext] << " "
+        end
+      end
+      params.delete(params["phone"+i.to_s])
+      params.delete(params["phone_ext"+i.to_s])
+    end
+    params[:contact].delete(:phone_counter)
+    
+    params[:contact][:mobile_phone] = ""
+    params[:contact][:phone_mobile_counter].to_i.times do |i|
+      params[:contact][:mobile_phone] << ", " if (i > 0) && !params["mobile"+i.to_s].blank?
+      params[:contact][:mobile_phone] << params["mobile"+i.to_s] unless params["mobile"+i.to_s].blank?
+      params.delete(params["mobile"+i.to_s])
+    end
+    params[:contact].delete(:phone_mobile_counter)
+
     params[:contact].delete(:project_id)
     @contact = Contact.new(params[:contact])
     @contact.projects << @project

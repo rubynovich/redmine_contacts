@@ -758,7 +758,8 @@ class ContactsQuery < ActiveRecord::Base
       days_ago = (day_of_week >= first_day_of_week ? day_of_week - first_day_of_week : day_of_week + 7 - first_day_of_week)
       sql = relative_date_clause(db_table, db_field, - days_ago, - days_ago + 6)
     when "~"
-      sql = "LOWER(#{db_table}.#{db_field}) LIKE '%#{connection.quote_string(value.first.to_s.downcase)}%'"
+      sql = "(LOWER(#{db_table}.#{db_field}) LIKE '%#{connection.quote_string(value.first.to_s.downcase)}%')" + 
+        " OR ( REPLACE( REPLACE( REPLACE( REPLACE( LOWER(#{db_table}.#{db_field}), '-', ''), ' ', ''), '(', ''), ')', '') LIKE '%#{connection.quote_string(value.first.to_s.downcase)}%') "
     when "!~"
       sql = "LOWER(#{db_table}.#{db_field}) NOT LIKE '%#{connection.quote_string(value.first.to_s.downcase)}%'"
     else
