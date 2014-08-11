@@ -147,6 +147,7 @@ class ContactsController < ApplicationController
     end
     params[:contact].delete(:phone_mobile_counter)
     Rails.logger.error("update".red)
+    Rails.logger.error(params[:contact][:phone_ext].inspect.red)
     
 
     @contact.tags.clear
