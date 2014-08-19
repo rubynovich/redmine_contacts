@@ -29,8 +29,12 @@
 	<tr class = "tel">
 		<th class = "phone"><%= l(:field_contact_phone) %>:</th>
 		<td class = "phones">
-		<% @contact.phones.each do |phone| %>
-			<span  class="value"><%= h phone %> <br></span>
+		<% @contact.phones.each_with_index do |phone, i| %>
+			<span  class="value"><%= h phone %> </span>
+			<% if !@contact.phones_ext.blank? && @contact.phones_ext[i] != " " %>
+				<span class="value"> доб. <%= h @contact.phones_ext[i] %> </span>
+			<% end %>
+			<br>
 		 <% end %>
 		</td>
 	</tr>
